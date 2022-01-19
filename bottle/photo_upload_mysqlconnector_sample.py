@@ -1,6 +1,6 @@
 from bottle import route,request,run,os
 import mysql.connector
-​
+
 # HTTP://localhost:8080/と入力すると実行される関数
 @route('/')
 def home():
@@ -10,7 +10,7 @@ def home():
         <input type="submit" value="upload">
     </form>
     '''
-​
+    
 # HTTP://localhost:8080/と入力すると実行される関数
 @route('/upload',method='POST')
 def upload():
@@ -25,18 +25,18 @@ def upload():
     save_path="./"
     upload.save(save_path)
     return 'OK'
-​
+    
 @route('/db')
 def dbcon():
     cnx = mysql.connector.connect(user='scott', password='tiger',
                               host='127.0.0.1',
-                              database='3semi2021')
+                              database='kisounit2')
 
     # カーソルの取得(検索結果からデータ１件ずつ抜き取るための仕組み)
     database = cnx.cursor(buffered = True)
 
     # データの取得
-    sql = 'SELECT カラム名 FROM テーブル名';
+    sql = 'SELECT * FROM emp WHERE ename = "KING"';
     database.execute(sql)
 
     #表示
@@ -48,9 +48,9 @@ def dbcon():
 
     #MySQl切断
     cnx.close()
-    return 'connected.'
-​
-
+    return str(rows)
+    
+    
 
 # Webサーバを起動する
 run(host='localhost',port=8080,debug=True)
