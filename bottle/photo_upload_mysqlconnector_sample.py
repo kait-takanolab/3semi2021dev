@@ -31,8 +31,26 @@ def dbcon():
     cnx = mysql.connector.connect(user='scott', password='tiger',
                               host='127.0.0.1',
                               database='3semi2021')
+
+    # カーソルの取得(検索結果からデータ１件ずつ抜き取るための仕組み)
+    database = cnx.cursor(buffered = True)
+
+    # データの取得
+    sql = 'SELECT カラム名 FROM テーブル名';
+    database.execute(sql)
+
+    #表示
+    rows = database.fetchall()
+    print(rows)
+
+    #カーソル終了
+    database.close()
+
+    #MySQl切断
     cnx.close()
     return 'connected.'
 ​
+
+
 # Webサーバを起動する
 run(host='localhost',port=8080,debug=True)
